@@ -1,0 +1,53 @@
+.ui-select-text {
+    input {
+        width: 100%;
+        height: 100%;
+        line-height: 100%;
+        border: none;
+        outline: none;
+        background: #fff;
+
+        &.empty {
+            color: #ccc;
+        }
+
+        &.disabled {
+            background: #f6f6f6;
+            _padding: 0; //奇怪，为嘛ie6下有padding，此处消除一下
+        }
+    }
+}
+
+.esui-select {
+    border-color: #e2e2e2;
+    height: 28px;
+    display: inline-block; //防止esui加载时的页面跳动太大
+    *zoom: 1;
+    *display: inline;
+    margin-right: 5px;
+
+    .ui-select-text {
+        height: 28px;
+        line-height: 28px;
+        padding: 0;
+
+        input {
+            *position: relative;
+            *top: 7px;
+        }
+    }
+
+    .ui-select-arrow {
+        width: 29px;
+        height: 28px;
+        background: url(img/arrow.png) 0 -42px;
+    }
+
+    &.ui-select-active .ui-select-arrow {
+        background-position: 0 0;
+    }
+}
+
+.ui-select-layer {
+    border-color: #e2e2e2;
+}

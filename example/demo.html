@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>CustomSelect</title>
+    <link rel="stylesheet" href="../dep/esui-2.1.2.min.css">
+    <link rel="stylesheet" href="demo.less">
+    <style>
+        body {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h3>联动下拉列表</h3>
+    <ul>
+        <li>
+            <h4>默认样式</h4>
+            <div ui="type:CustomSelect;id:provinceSelect1;width:115;emptyText:请选择省份;"></div>
+            <div ui="type:CustomSelect;id:citySelect1;width:115;emptyText:请选择城市;"></div>
+            <div ui="type:CustomSelect;id:districtSelect1;width:115;emptyText:请选择区;"></div>
+        </li>
+        <li>
+            <h4>自定义样式（信誉V相关项目使用样式）</h4>
+            <div ui="type:CustomSelect;id:provinceSelect2;width:115;emptyText:请选择省份;" class="esui-select"></div>
+            <div ui="type:CustomSelect;id:citySelect2;width:115;emptyText:请选择城市;" class="esui-select"></div>
+            <div ui="type:CustomSelect;id:districtSelect2;width:115;emptyText:请选择区;" class="esui-select"></div>
+        </li>
+    </ul>
+
+    <h3>可模糊匹配下拉列表</h3>
+    <ul>
+        <li>
+            <h4>默认样式</h4>
+            <div ui="type:CustomSelect;id:bankSelect1;width:200;emptyText:请选择银行;"></div>
+        </li>
+        <li>
+            <h4>自定义样式（信誉V相关项目使用样式）</h4>
+            <div ui="type:CustomSelect;id:bankSelect2;width:200;emptyText:请选择银行;" class="esui-select"></div>
+        </li>
+    </ul>
+    <script src="http://s1.bdstatic.com/r/www/cache/ecom/esl/1-6-10/esl.js"></script>
+    <script src="../dep/tangram-1.5.2.2-min.js"></script>
+    <script src="../dep/esui-2.1.2.min.js"></script>
+    <script>
+        require.config({
+            baseUrl: '../src'
+        });
+
+        require(['CustomSelect'], function() {
+            var bankList = [
+                {name: '中国工商银行', value: 1},
+                {name: '中国农业银行', value: 2},
+                {name: '中国建设银行', value: 3},
+                {name: '中国银行', value: 4},
+                {name: '中信银行', value: 5},
+                {name: '北京银行', value: 6},
+                {name: '汇丰银行', value: 7},
+                {name: '平安银行', value: 8},
+                {name: '汉口银行', value: 9},
+                {name: '花旗银行', value: 10}
+            ];
+
+            esui.init(document.body, {
+                // 联动下拉列表（默认样式）
+                provinceSelect1: {
+                    getdata: {
+                        url: '/get-province-list',
+                        method: 'post',
+                        data: 'pid=0'
+                    },
+                    next: 'citySelect1',
+                    onchange: function (value, selected) {
+                        console.log('已选择省份：' + selected.name);
+                    }
+                },
+                citySelect1: {
+                    getdata: {
+                        url: '/get-city-list',
+                        method: 'post',
+                        data: 'pid=#{0}'
+                    },
+                    previous: 'provinceSelect1',
+                    next: 'districtSelect1',
+                    onchange: function (value, selected) {
+                        console.log('已选择城市：' + selected.name);
+                    }
+                },
+                districtSelect1: {
+                    getdata: {
+                        url: '/get-district-list',
+                        method: 'post',
+                        data: 'pid=#{0}'
+                    },
+                    previous: 'citySelect1',
+                    onchange: function (value, selected) {
+                        console.log('已选择地区：' + selected.name);
+                    }
+                },
+
+                // 联动下拉列表（自定义样式）
+                provinceSelect2: {
+                    getdata: {
+                        url: '/get-province-list',
+                        method: 'post',
+                        data: 'pid=0'
+                    },
+                    next: 'citySelect2',
+                    arrowWidth: 30,
+                    onchange: function (value, selected) {
+                        console.log('已选择省份：' + selected.name);
+                    }
+                },
+                citySelect2: {
+                    getdata: {
+                        url: '/get-city-list',
+                        method: 'post',
+                        data: 'pid=#{0}'
+                    },
+                    previous: 'provinceSelect2',
+                    next: 'districtSelect2',
+                    arrowWidth: 30,
+                    onchange: function (value, selected) {
+                        console.log('已选择城市：' + selected.name);
+                    }
+                },
+                districtSelect2: {
+                    getdata: {
+                        url: '/get-district-list',
+                        method: 'post',
+                        data: 'pid=#{0}'
+                    },
+                    previous: 'citySelect2',
+                    arrowWidth: 30,
+                    onchange: function (value, selected) {
+                        console.log('已选择地区：' + selected.name);
+                    }
+                },
+
+                // 模糊匹配下拉列表（默认样式）
+                bankSelect1: {
+                    inputMatch: true,
+                    datasource: bankList,
+                    onchange: function (value, selected) {
+                        console.log('已选择银行：' + selected.name);
+                    }
+                },
+
+                // 模糊匹配下拉列表（自定义样式）
+                bankSelect2: {
+                    inputMatch: true,
+                    arrowWidth: 30,
+                    datasource: bankList,
+                    onchange: function (value, selected) {
+                        console.log('已选择银行：' + selected.name);
+                    }
+                }
+            });
+
+            esui.get('provinceSelect1').renderAjaxData();
+            esui.get('provinceSelect2').renderAjaxData();
+        });
+    </script>
+</body>
+</html>
